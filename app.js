@@ -4,26 +4,18 @@ const cors = require("cors");
 const PORT = process.env.PORT || 8080;
 const bodyparser = require("body-parser");
 const nodemailer = require("nodemailer");
-const sendGridTransporter = require("nodemailer-sendgrid-transport");
-const { application } = require("express");
 require("dotenv").config();
 
 app.use(cors());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
-// let options = {
-//   // auth:{
-//   //     api_key:process.env.API_SENDGRID
-//   // },
+const sendMail = process.env.email;
+const sendPassword = process.env.pass;
 
-//   auth: {
-//     user: "patelamitkumar153@gmail.com",
-//     pass: "Venom@251111",
-//   },
-// };
+console.log(sendMail, sendPassword)
 
-// const transporter = nodemailer.createTransport(sendGridTransporter(options));
+
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -34,8 +26,8 @@ let transporter = nodemailer.createTransport({
     rejectUnauthorized: false,
   },
   auth: {
-    user: "amitrecb@gmail.com",
-    pass: "ifhcaihchcvydzha",
+    user: sendMail,
+    pass: sendPassword,
   },
 });
 
@@ -59,7 +51,7 @@ app.post("/sendmail", (req, res) => {
   }
 
   let email_data = {
-    from: "amitrecb@gmail.com",
+    from: sendMail,
     to: "patelamitkumar2511@gmail.com",
     subject: "Job Types - Message from Portfolio",
     text: "Hi there!",
